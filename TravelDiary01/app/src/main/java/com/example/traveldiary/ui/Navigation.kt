@@ -27,6 +27,8 @@ sealed interface TravelDiaryRoute {
     data object Settings
 }
 
+
+//navigation
 @Composable
 fun TravelDiaryNavGraph(
     navController: NavHostController,
