@@ -5,10 +5,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.example.traveldiary.ui.screens.AddTravelScreen
-import com.example.traveldiary.ui.screens.HomeScreen
-import com.example.traveldiary.ui.screens.SettingsScreen
-import com.example.traveldiary.ui.screens.TravelDetailsScreen
+import com.example.traveldiary.ui.screens.addtravel.AddTravelScreen
+import com.example.traveldiary.ui.screens.home.HomeScreen
+import com.example.traveldiary.ui.screens.settings.SettingsScreen
+import com.example.traveldiary.ui.screens.traveldetails.TravelDetailsScreen
 import kotlinx.serialization.Serializable
 
 sealed interface TravelDiaryRoute {

@@ -1,4 +1,4 @@
-package com.example.traveldiary.ui.screens
+package com.example.traveldiary.ui.screens.addtravel
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
