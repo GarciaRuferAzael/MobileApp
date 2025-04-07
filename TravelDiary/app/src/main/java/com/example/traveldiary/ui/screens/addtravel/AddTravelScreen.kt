@@ -35,13 +35,22 @@ import androidx.navigation.NavController
 import com.example.traveldiary.ui.composables.AppBar
 
 @Composable
-fun AddTravelScreen(navController: NavController) {
+fun AddTravelScreen(
+    state: AddTravelState,
+    actions: AddTravelActions,
+    onSubmit: () -> Unit,
+    navController: NavController
+) {
     Scaffold(
         topBar = { AppBar(navController, title = "Add Travel") },
         floatingActionButton = {
             FloatingActionButton(
                 containerColor = MaterialTheme.colorScheme.tertiary,
-                onClick = { navController.navigateUp() }
+                onClick = {
+                    if (!state.canSubmit) return@FloatingActionButton
+                    onSubmit()
+                    navController.navigateUp()
+                }
             ) {
                 Icon(Icons.Outlined.Check, "Add Travel")
             }
@@ -56,8 +65,8 @@ fun AddTravelScreen(navController: NavController) {
                 .fillMaxSize()
         ) {
             OutlinedTextField(
-                value = "",
-                onValueChange = { /*TODO*/ },
+                value = state.destination,
+                onValueChange = actions::setDestination,
                 label = { Text("Destination") },
                 modifier = Modifier.fillMaxWidth(),
                 trailingIcon = {
@@ -67,14 +76,14 @@ fun AddTravelScreen(navController: NavController) {
                 }
             )
             OutlinedTextField(
-                value = "",
-                onValueChange = { /*TODO*/ },
+                value = state.date,
+                onValueChange = actions::setDate,
                 label = { Text("Date") },
                 modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
-                value = "",
-                onValueChange = { /*TODO*/ },
+                value = state.description,
+                onValueChange = actions::setDescription,
                 label = { Text("Description") },
                 modifier = Modifier.fillMaxWidth()
             )

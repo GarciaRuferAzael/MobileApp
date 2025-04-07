@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
@@ -33,13 +34,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.traveldiary.data.database.Trip
 import com.example.traveldiary.ui.TravelDiaryRoute
 import com.example.traveldiary.ui.composables.AppBar
+import com.example.traveldiary.ui.screens.TripsState
 
 @Composable
-fun HomeScreen(navController: NavController) {
-    val items = (1..20).map { "Item n°$it" }
-
+fun HomeScreen(state: TripsState, navController: NavController) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -51,25 +52,30 @@ fun HomeScreen(navController: NavController) {
         },
         topBar = { AppBar(navController, title = "TravelDiary") }
     ) { contentPadding ->
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(8.dp, 8.dp, 8.dp, 80.dp),
-            modifier =  Modifier.padding(contentPadding)
-        ) {
-            items(items) { item ->
-                TravelItem(
-                    item,
-                    onClick = { navController.navigate(TravelDiaryRoute.TravelDetails(item)) }
-                )
+        if (state.trips.isNotEmpty()){
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                contentPadding = PaddingValues(8.dp, 8.dp, 8.dp, 80.dp),
+                modifier =  Modifier.padding(contentPadding)
+            ) {
+                items(state.trips) { item ->
+                    TravelItem(
+                        item,
+                        onClick = { navController.navigate(TravelDiaryRoute.TravelDetails(item.id)) }
+                    )
+                }
             }
+        } else {
+            NoItemsPlaceholder(Modifier.padding(contentPadding))
         }
+
     }
 }
 
 @Composable
-fun TravelItem(item: String, onClick: () -> Unit) {
+fun TravelItem(item: Trip, onClick: () -> Unit) {
     Card(
         onClick = onClick,
         modifier = Modifier
@@ -99,7 +105,7 @@ fun TravelItem(item: String, onClick: () -> Unit) {
             )
             Spacer(Modifier.size(8.dp))
             Text(
-                item,
+                item.name,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center
@@ -107,3 +113,29 @@ fun TravelItem(item: String, onClick: () -> Unit) {
         }
     }
 }
+
+@Composable
+fun NoItemsPlaceholder(modifier: Modifier = Modifier) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Icon(
+            Icons.Outlined.LocationOn, "Location icon",
+            modifier = Modifier.padding(bottom = 16.dp).size(48.dp),
+            tint = MaterialTheme.colorScheme.secondary
+        )
+        Text(
+            "No items",
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.secondary,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        Text(
+            "Tap the + button to add a new trip.",
+            style = MaterialTheme.typography.bodyLarge
+        )
+    }
+}
+

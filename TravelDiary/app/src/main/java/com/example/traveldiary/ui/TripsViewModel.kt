@@ -10,26 +10,23 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-data class TodosState(val todos: List<Trip>)
+data class TripsState(val trips: List<Trip>)
 
-interface TravelActions {
-    fun addTrip(trip: Trip): Job
-    fun removeTrip(trip: Trip): Job
-}
-
-class TripsViewModel(private val repository: TripsRepository) : ViewModel() {
-    val state = repository.trips.map { TodosState(it) }.stateIn(
+class TripsViewModel(
+    private val repository: TripsRepository
+) : ViewModel() {
+    val state = repository.trips.map { TripsState(it) }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = TodosState(emptyList())
+        initialValue = TripsState(emptyList())
     )
-    val actions = object : TravelActions {
-        override fun addTrip(trip: Trip) = viewModelScope.launch {
-            repository.upsert(trip)
-        }
 
-        override fun removeTrip(trip: Trip) = viewModelScope.launch {
-            repository.delete(trip)
-        }
+    fun addTrip(trip: Trip) = viewModelScope.launch {
+        repository.upsert(trip)
     }
+
+    fun removeTrip(trip: Trip) = viewModelScope.launch {
+        repository.delete(trip)
+    }
+
 }

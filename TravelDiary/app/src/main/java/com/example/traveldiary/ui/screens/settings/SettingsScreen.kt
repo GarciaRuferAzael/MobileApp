@@ -22,7 +22,11 @@ import androidx.navigation.NavController
 import com.example.traveldiary.ui.composables.AppBar
 
 @Composable
-fun SettingsScreen(navController: NavController) {
+fun SettingsScreen(
+    state: SettingsState,
+    onUsernameChanged: (String) -> Unit,
+    navController: NavController
+) {
     Scaffold(
         topBar = { AppBar(navController, title = "Settings") }
     ) { contentPadding ->
@@ -30,17 +34,15 @@ fun SettingsScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(contentPadding).padding(12.dp).fillMaxSize()
         ) {
-            var username by rememberSaveable { mutableStateOf("username") }
-
             OutlinedTextField(
-                value = username,
-                onValueChange = { username = it },
+                value = state.username,
+                onValueChange = onUsernameChanged,
                 label = { Text("Username") },
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.size(36.dp))
             Text(
-                text = username,
+                text = state.username,
                 style = MaterialTheme.typography.bodyLarge
             )
         }

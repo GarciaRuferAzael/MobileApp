@@ -15,6 +15,8 @@ import org.koin.dsl.module
 val Context.dataStore by preferencesDataStore("settings")
 
 val appModule = module {
+    single { get<Context>().dataStore }
+
     single {
         Room.databaseBuilder(
             get(),
@@ -27,7 +29,7 @@ val appModule = module {
 
     single { TripsRepository(get<TripDatabase>().tripsDAO()) }
 
-    viewModel { AddTravelViewModel(get()) }
+    viewModel { AddTravelViewModel() }
 
     viewModel { SettingsViewModel(get()) }
 
