@@ -9,7 +9,7 @@ import com.example.traveldiary.data.repositories.SettingsRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-data class SettingsState( val username: String)
+data class SettingsState(val username: String)
 
 class SettingsViewModel(
     private val repository: SettingsRepository
@@ -17,7 +17,7 @@ class SettingsViewModel(
     var state by mutableStateOf(SettingsState(""))
         private set
 
-    fun setUsername(username: String){
+    fun setUsername(username: String) {
         state = SettingsState(username)
         viewModelScope.launch {
             repository.setUsername(username)

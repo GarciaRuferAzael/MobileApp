@@ -1,10 +1,9 @@
-package com.example.traveldiary.ui.screens
+package com.example.traveldiary.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.traveldiary.data.database.Trip
 import com.example.traveldiary.data.repositories.TripsRepository
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -15,7 +14,7 @@ data class TripsState(val trips: List<Trip>)
 class TripsViewModel(
     private val repository: TripsRepository
 ) : ViewModel() {
-    val state = repository.trips.map { TripsState(it) }.stateIn(
+    val state = repository.trips.map { TripsState(trips = it) }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
         initialValue = TripsState(emptyList())
@@ -25,8 +24,7 @@ class TripsViewModel(
         repository.upsert(trip)
     }
 
-    fun removeTrip(trip: Trip) = viewModelScope.launch {
+    fun deleteTrip(trip: Trip) = viewModelScope.launch {
         repository.delete(trip)
     }
-
 }

@@ -36,8 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.traveldiary.data.database.Trip
 import com.example.traveldiary.ui.TravelDiaryRoute
+import com.example.traveldiary.ui.TripsState
 import com.example.traveldiary.ui.composables.AppBar
-import com.example.traveldiary.ui.screens.TripsState
 
 @Composable
 fun HomeScreen(state: TripsState, navController: NavController) {
@@ -52,7 +52,7 @@ fun HomeScreen(state: TripsState, navController: NavController) {
         },
         topBar = { AppBar(navController, title = "TravelDiary") }
     ) { contentPadding ->
-        if (state.trips.isNotEmpty()){
+        if (state.trips.isNotEmpty()) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -70,7 +70,6 @@ fun HomeScreen(state: TripsState, navController: NavController) {
         } else {
             NoItemsPlaceholder(Modifier.padding(contentPadding))
         }
-
     }
 }
 
@@ -138,4 +137,3 @@ fun NoItemsPlaceholder(modifier: Modifier = Modifier) {
         )
     }
 }
-

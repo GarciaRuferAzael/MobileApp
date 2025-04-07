@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Trip(
+data class Trip (
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
 
@@ -16,5 +16,5 @@ data class Trip(
     var date: String,
 
     @ColumnInfo
-    var description: String
+    var description: String,
 )
