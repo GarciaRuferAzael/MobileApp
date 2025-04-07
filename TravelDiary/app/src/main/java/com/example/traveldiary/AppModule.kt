@@ -6,6 +6,7 @@ import androidx.room.Room
 import com.example.traveldiary.data.database.TripDatabase
 import com.example.traveldiary.data.repositories.SettingsRepository
 import com.example.traveldiary.data.repositories.TripsRepository
+import com.example.traveldiary.ui.screens.TripsViewModel
 import com.example.traveldiary.ui.screens.addtravel.AddTravelViewModel
 import com.example.traveldiary.ui.screens.settings.SettingsViewModel
 import org.koin.core.module.dsl.viewModel
@@ -24,9 +25,11 @@ val appModule = module {
 
     single { SettingsRepository(get()) }
 
-    single { TripsRepository(get<TripDatabase>().tripsDAO) }
+    single { TripsRepository(get<TripDatabase>().tripsDAO()) }
 
-    viewModel { AddTravelViewModel() }
+    viewModel { AddTravelViewModel(get()) }
 
     viewModel { SettingsViewModel(get()) }
+
+    viewModel { TripsViewModel(get()) }
 }
